@@ -140,8 +140,8 @@ sprintLF:
   ret
 
 bprint:
-    cmp eax, 1
     push eax
+    cmp eax, 1
     je .true
     
     lea eax, [false]
@@ -149,9 +149,8 @@ bprint:
 .true:
     lea eax, [true]
 .endtrue:
-    
     call sprint
-    
+
     pop eax
     ret
 
