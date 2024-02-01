@@ -11,6 +11,8 @@ It supports both x32 and x64 architectures.
 
 ## How to Use
 
+> This library contains code provided by [`asmtutor.com`](https://asmtutor.com/).
+
 There are 2 folders in this repository: `x32` and `x64`. Pick the desired one.
 
 Inside the folders there are 3 files:
@@ -18,8 +20,6 @@ Inside the folders there are 3 files:
 - `lib.asm`:
 
 This file contains the functions your program is able to use. It is not recommended to modify this file, since it may not function properly if modified incorrectly.
-
-This file contains functions provided by `asmtutor.com`.
 
 This file is commented out, with the name of the functions and its symbolic signature.
 
