@@ -19,6 +19,8 @@ Inside the folders there are 3 files:
 
 This file contains the functions your program is able to use. It is not recommended to modify this file, since it may not function properly if modified incorrectly.
 
+This file contains functions provided by `asmtutor.com`.
+
 This file is commented out, with the name of the functions and its symbolic signature.
 
 For example, this is the signature of the `print_uint64` function, defined in the `x64/lib.asm` file:
