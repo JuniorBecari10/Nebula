@@ -1,9 +1,6 @@
-; to load a pointer to some data here into a register, use the 'lea' instruction: 'lea eax, [msg]'.
-; note: make sure all strings are zero-terminated.
-
 section .data
-    true  db "true", 0
-    false db "false", 0
+  true  db "true", 0
+  false db "false", 0
 
 section .text
 
@@ -21,32 +18,32 @@ print_uint32:
 
   mov ecx, 0
 
-  .divideLoop:
-    inc ecx
-    mov edx, 0
-    mov esi, 10
-    idiv esi
-    add edx, 48
-    push edx
-    cmp eax, 0
-    jnz .divideLoop
+.divideLoop:
+  inc ecx
+  mov edx, 0
+  mov esi, 10
+  idiv esi
+  add edx, 48
+  push edx
+  cmp eax, 0
+  jnz .divideLoop
 
-  .printLoop:
-    dec ecx
-    mov eax, esp
+.printLoop:
+  dec ecx
+  mov eax, esp
 
-    mov edx, 1
-    call print_str_len
+  mov edx, 1
+  call print_str_len
 
-    pop eax
-    cmp ecx, 0
-    jnz .printLoop
+  pop eax
+  cmp ecx, 0
+  jnz .printLoop
 
-    pop esi
-    pop edx
-    pop ecx
-    pop eax
-    ret
+  pop esi
+  pop edx
+  pop ecx
+  pop eax
+  ret
 
 ; fn print_str(s: eax &str): void
 ; prints a string pointed by eax.
@@ -79,78 +76,78 @@ print_str_len:
 ; fn print_bool(b: eax bool): void
 ; prints a boolean (i.e. 0 or 1) stored in eax.
 print_bool:
-    push eax
-    cmp eax, 1
-    je .true
+  push eax
+  cmp eax, 1
+  je .true
 
-    lea eax, [false]
-    jmp .endtrue
+  lea eax, [false]
+  jmp .endtrue
 .true:
-    lea eax, [true]
+  lea eax, [true]
 .endtrue:
-    call print_str
+  call print_str
 
-    pop eax
-    ret
+  pop eax
+  ret
 
 ; fn print_char(c: eax char): void
 ; prints a character stored in eax.
 print_char:
-    push eax
-    mov eax, esp
-    call print_str
+  push eax
+  mov eax, esp
+  call print_str
 
-    pop eax
-    ret
+  pop eax
+  ret
 
 ; --- Println ---
 
 ; fn println_uint32(n: eax uint32): void
 ; prints an unsigned 32-bit integer stored in eax, and then a newline.
 println_uint32:
-    call print_uint32
-    call println
-    ret
+  call print_uint32
+  call println
+  ret
 
 ; fn println_str(s: eax &str): void
 ; prints a string pointed by eax, and then a newline.
 println_str:
-    call print_str
-    call println
-    ret
+  call print_str
+  call println
+  ret
 
 ; fn println_str_len(s: eax &str, len: edx uint32)
 ; prints a string pointed by eax, with the length specified by edx, and then a newline.
 println_str_len:
-    call print_str_len
-    call println
-    ret
+  call print_str_len
+  call println
+  ret
 
 ; fn println_bool(b: eax bool): void
 ; prints a boolean (i.e. 0 or 1) stored in eax, and then a newline.
 println_bool:
-    call print_bool
-    call println
-    ret
+  call print_bool
+  call println
+  ret
 
 ; fn println_char(c: eax char): void
 ; prints a character stored in eax, and then a newline.
 println_char:
-    call print_char
-    call println
-    ret
+  call print_char
+  call println
+  ret
 
 ; --- Helper Functions ---
 
 ; fn println(): void
 ; prints a newline character.
 println:
-    push eax
-    mov eax, 0Ah
-    call print_char
+  push eax
+  mov eax, 0Ah
+  call print_char
 
-    pop eax
-    ret
+  pop eax
+  ret
 
 ; fn str_len(s: eax &str): eax uint32
 ; calculates the length of a zero-terminated string pointed by eax, and then returns the result in eax.
@@ -158,51 +155,51 @@ str_len:
   push ebx
   mov ebx, eax
 
-  .nextchar:
-    cmp byte [eax], 0
-    jz .finished
-    inc eax
-    jmp .nextchar
+.nextchar:
+  cmp byte [eax], 0
+  jz .finished
+  inc eax
+  jmp .nextchar
 
-  .finished:
-    sub eax, ebx
-    pop ebx
-    ret
+.finished:
+  sub eax, ebx
+  pop ebx
+  ret
 
 ; fn read_input(buffer: eax &mut str, len: edx uint32): void
 ; reads 'len' bytes from stdin and stores them in 'buffer'.
 ; help: use the bss section to reserve some space.
 read_input:
-    push ecx
-    push ebx
-    push eax
+  push ecx
+  push ebx
+  push eax
 
-    mov ecx, eax
-    mov eax, 3
-    mov ebx, 0
-    int 80h
+  mov ecx, eax
+  mov eax, 3
+  mov ebx, 0
+  int 80h
 
-    pop eax
-    pop ebx
-    pop ecx
-    ret
+  pop eax
+  pop ebx
+  pop ecx
+  ret
 
 ; fn input(prompt: eax &str, buffer: ebx &mut str, len: edx uint32)
 ; syntactic sugar for printing a prompt and then reading 'len' bytes from stdin and storing them in 'buffer'.
 input:
-    push eax
-    push ebx
-    push edx
+  push eax
+  push ebx
+  push edx
 
-    call print_str
+  call print_str
 
-    mov eax, ebx
-    call read_input
+  mov eax, ebx
+  call read_input
 
-    pop edx
-    pop ebx
-    pop eax
-    ret
+  pop edx
+  pop ebx
+  pop eax
+  ret
 
 ; fn atoi(s: eax &str): eax uint32
 ; converts a number inside a string pointed by eax, and returns the number in eax.
@@ -250,6 +247,6 @@ atoi:
 ; exits the program with the status code defined in eax.
 ; note: call this function with 'jmp', to save some space in memory; since this won't return.
 exit:
-    mov ebx, eax
-    mov eax, 1
-    int 80h
+  mov ebx, eax
+  mov eax, 1
+  int 80h
